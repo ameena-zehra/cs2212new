@@ -190,21 +190,43 @@ public class MainUI extends JFrame implements ActionListener {
 		String strategyName = null;
 		Context context;
 		if ("refresh".equals(command)) {
+			// Add last
+			Object traderObject = dtm.getValueAt(dtm.getRowCount()-1, 0);
+			if (traderObject == null) {
+				JOptionPane.showMessageDialog(this, "please fill in Trader name on line "  );
+							
+				return;
+			}
+			traderName = traderObject.toString();
+			Object coinObject = dtm.getValueAt(dtm.getRowCount()-1, 1);
+			if (coinObject == null) {
+				JOptionPane.showMessageDialog(this, "please fill in cryptocoin list on line "  );
+				return;
+			}
+			coinNames = coinObject.toString().split(",");
+			Object strategyObject = dtm.getValueAt(dtm.getRowCount()-1, 2);
+			if (strategyObject == null) {
+				JOptionPane.showMessageDialog(this, "please fill in strategy name on line "  );
+				return;
+			}
+			strategyName = strategyObject.toString();
+			context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
+			context.execute();
 			for (int count = 0; count < dtm.getRowCount(); count++){
-					Object traderObject = dtm.getValueAt(count, 0);
+					traderObject = dtm.getValueAt(count, 0);
 					if (traderObject == null) {
 						JOptionPane.showMessageDialog(this, "please fill in Trader name on line " + (count + 1) );
 						
 						return;
 					}
 					traderName = traderObject.toString();
-					Object coinObject = dtm.getValueAt(count, 1);
+					coinObject = dtm.getValueAt(count, 1);
 					if (coinObject == null) {
 						JOptionPane.showMessageDialog(this, "please fill in cryptocoin list on line " + (count + 1) );
 						return;
 					}
 					coinNames = coinObject.toString().split(",");
-					Object strategyObject = dtm.getValueAt(count, 2);
+					strategyObject = dtm.getValueAt(count, 2);
 					if (strategyObject == null) {
 						JOptionPane.showMessageDialog(this, "please fill in strategy name on line " + (count + 1) );
 						return;
@@ -212,16 +234,16 @@ public class MainUI extends JFrame implements ActionListener {
 					strategyName = strategyObject.toString();
 					System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
 					
-				   if(example.getSize()==0) {
-					   context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
-					   context.execute();
-				   }
-					ListIterator <Broker> iter = example.getClientList().listIterator();
-					while (iter.hasNext()) {
-						System.out.println(iter.next().gettraderName());
-					}
-					context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
-				    context.execute();
+//				   if(example.getSize()==0) {
+//					   context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
+//					   context.execute();
+//				   }
+//					ListIterator <Broker> iter = example.getClientList().listIterator();
+//					while (iter.hasNext()) {
+//						System.out.println(iter.next().gettraderName());
+//					}
+//					context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
+//				    context.execute();
 					context = new Context(new PerformTrade(example));
 					context.execute();
 
@@ -232,15 +254,34 @@ public class MainUI extends JFrame implements ActionListener {
 			DataVisualizationCreator creator = new DataVisualizationCreator();
 			creator.createCharts();
 		} else if ("addTableRow".equals(command)) {
-			dtm.addRow(new String[3]);
 			
-			//System.out.println("this is it  "+dtm.getValueAt(0, 1));
-//			traderName = (String) dtm.getValueAt(dtm.getRowCount(), 0);
-//			Object coinObject = dtm.getValueAt(dtm.getRowCount(), 1);
+			// Add previous
+			Object traderObject = dtm.getValueAt(dtm.getRowCount()-1, 0);
+			if (traderObject == null) {
+				JOptionPane.showMessageDialog(this, "please fill in Trader name on line "  );
+				
+				return;
+			}
+			traderName = traderObject.toString();
+			Object coinObject = dtm.getValueAt(dtm.getRowCount()-1, 1);
+			if (coinObject == null) {
+				JOptionPane.showMessageDialog(this, "please fill in cryptocoin list on line "  );
+				return;
+			}
+			coinNames = coinObject.toString().split(",");
+			Object strategyObject = dtm.getValueAt(dtm.getRowCount()-1, 2);
+			if (strategyObject == null) {
+				JOptionPane.showMessageDialog(this, "please fill in strategy name on line "  );
+				return;
+			}
+			dtm.addRow(new String[3]);
+			strategyName = strategyObject.toString();
+//			traderName = (String) dtm.getValueAt(dtm.getRowCount()-1, 0);
+//			Object coinObject = dtm.getValueAt(dtm.getRowCount()-1, 1);
 //			coinNames = coinObject.toString().split(",");
-//			strategyName = (String) dtm.getValueAt(dtm.getRowCount(), 2);
-//			context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
-//		    context.execute();
+//			strategyName = (String) dtm.getValueAt(dtm.getRowCount()-1, 2);
+			context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
+		    context.execute();
 			
 		} else if ("remTableRow".equals(command)) {
 			int selectedRow = table.getSelectedRow();
@@ -252,11 +293,11 @@ public class MainUI extends JFrame implements ActionListener {
 		}
 		
 	
-//		System.out.println(example.getSize());
-//		ListIterator <Broker> iter = example.getClientList().listIterator();
-//		while (iter.hasNext()) {
-//			System.out.println(iter.next().gettraderName());
-//		}
+		System.out.println(example.getSize());
+		ListIterator <Broker> iter = example.getClientList().listIterator();
+		while (iter.hasNext()) {
+			System.out.println(iter.next().gettraderName());
+		}
 //		context = new Context(new PerformTrade(example));
 //		context.execute();
 		
