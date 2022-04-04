@@ -16,16 +16,24 @@ public class TradingAction {
 		this.quantity = quantity;
 		this.price = price;
 		this.timeStamp = timeStamp;
-		
 	}
 	public TradingAction(String traderName, String strategyname, String date) {
 		this.traderName = traderName;
 		this.strategyname = strategyname;
 		this.timeStamp= date;
-		
 	}
-	public String[] outputTrade() {
-		String[] result = new String[7];
+	public String outputTrade() {
+		String result = traderName +
+						strategyname +
+						coinTraded +
+						BuyorSell +
+						String.valueOf(price) +
+						String.valueOf(quantity) +
+						timeStamp;
+		return result;
+	}
+	public Object[] outputTradeArray() {
+		Object[] result = new Object[7];
 		result[0]= traderName;
 		result[1] = strategyname;
 		result[2] = coinTraded;
@@ -33,12 +41,6 @@ public class TradingAction {
 		result[4] = String.valueOf(price);
 		result[5] = String.valueOf(quantity);
 		result[6] = timeStamp;
-		
-		
 		return result;
 	}
-	
-	
-	
-
 }
