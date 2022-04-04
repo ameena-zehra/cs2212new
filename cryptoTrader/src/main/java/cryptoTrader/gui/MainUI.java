@@ -310,7 +310,24 @@ public class MainUI extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(this, "please fill in strategy name on line "  );
 				return;
 			}
+			
+			// Loop from the first to second last row.
+			for (int i=0; i<dtm.getRowCount() - 1; i++) {
+				if (dtm.getValueAt(i, 0) == null) break;
+				
+				// Check if the current row name equals the new traderName
+				if (dtm.getValueAt(i, 0).toString().equals(traderName)) {
+					// Display a message and exit the function if traderName exists.
+					JOptionPane.showMessageDialog(
+						null, 
+						"A trading client with this name already exists. Please select a unique name."  
+					);
+					return;
+				}
+			}
+
 			dtm.addRow(new String[3]);
+
 			strategyName = strategyObject.toString();
 //			traderName = (String) dtm.getValueAt(dtm.getRowCount()-1, 0);
 //			Object coinObject = dtm.getValueAt(dtm.getRowCount()-1, 1);
@@ -329,11 +346,11 @@ public class MainUI extends JFrame implements ActionListener {
 		}
 		
 	
-		System.out.println(example.getSize());
-		ListIterator <Broker> iter = example.getClientList().listIterator();
-		while (iter.hasNext()) {
-			System.out.println(iter.next().gettraderName());
-		}
+		// System.out.println(example.getSize());
+		// ListIterator <Broker> iter = example.getClientList().listIterator();
+		// while (iter.hasNext()) {
+		// 	System.out.println(iter.next().gettraderName());
+		// }
 //		context = new Context(new PerformTrade(example));
 //		context.execute();
 		
