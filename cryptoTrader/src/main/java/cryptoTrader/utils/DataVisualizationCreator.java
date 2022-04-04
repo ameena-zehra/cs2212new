@@ -36,10 +36,10 @@ import cryptoTrader.gui.TradingClient;
 public class DataVisualizationCreator {
 	
 	public void createCharts(TradingClient example) {
-//		createTextualOutput();
+		// createTextualOutput();
 		createTableOutput(example);
-//		createTimeSeries();
-//		createScatter();
+		// createTimeSeries();
+		// createScatter();
 		createBar(example);
 	}
 
@@ -54,14 +54,11 @@ public class DataVisualizationCreator {
 //                TitledBorder.CENTER,
 //                TitledBorder.TOP));
 //		
-//	
-//		
 //		scrollPane.setPreferredSize(new Dimension(800, 300));
 //		table.setFillsViewportHeight(true);;
-		
 //		MainUI.getInstance().updateStats(scrollPane);
 	}
-	
+
 	private void createTableOutput(TradingClient example) {
 		example.getAllTradingActions();
 
@@ -75,7 +72,7 @@ public class DataVisualizationCreator {
 				i++;
 			}
 		}
-		
+
 		// for (int k = 0; k < example.getTotalAllTradingActions(); k++) {
 		// 	for (int j = 0; j < 7; j++) {
 		// 		System.out.println("Thing " + (k + 1) + ": " + data[k][j]);
