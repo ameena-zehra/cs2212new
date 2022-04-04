@@ -3,19 +3,20 @@ package cryptoTrader.gui;
 import java.util.ArrayList;
 
 public class StrategyA extends Strategy{
-	CryptoCoin BTC = new CryptoCoin("btc");
-	CryptoCoin ETH = new CryptoCoin("eth");
+	private CryptoCoin BTC = new CryptoCoin("btc");
+	private CryptoCoin ETH = new CryptoCoin("eth");
+	private double BTCPrice = BTC.getPrice();
+	private double ETHPrice = ETH.getPrice();
 
 	@Override
 	public void compute(Broker currentBroker) {
 		ArrayList<CryptoCoin> coinList = currentBroker.getCoinList();
 		boolean success = checkcryptoListandStrategy(coinList);
 		
-		if (success=true) {
+		if (success==true) {
 			TradingAction result = new TradingAction(currentBroker.gettraderName(),"strategy-a", "btc", "buy", 10, BTC.getPrice(), BTC.getDate());
 			currentBroker.addActionRecord(result);
 			currentBroker.addTrades();
-			System.out.println("print success!!");
 			return;
 		}
 		else {
@@ -27,10 +28,24 @@ public class StrategyA extends Strategy{
 		
 	}
 	private boolean checkcryptoListandStrategy(ArrayList<CryptoCoin> coinList){
-//		if (((coinList.contains(BTC))&&(coinList.contains(ETH)))&&((BTC.getPrice())>(ETH.getPrice()))){
-//			return true;
-//		}
-		return true;
+		int numMatches=0;
+		for (CryptoCoin coin : coinList) {
+			System.out.println(coin.getCryptoName());
+			if (coin.getCryptoName().equals("btc")) {
+				numMatches++;
+			}
+			if (coin.getCryptoName().equals("eth")) {
+				numMatches++;
+			}
+		}
+		if (numMatches>=2) {
+			System.out.println("the list does indeed contain this");
+			if ((BTCPrice)>(ETHPrice)){
+				return true;
+			}
+		}
+		
+		return false;
 		
 	}
 	

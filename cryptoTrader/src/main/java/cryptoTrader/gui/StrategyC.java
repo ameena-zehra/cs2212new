@@ -2,11 +2,11 @@ package cryptoTrader.gui;
 
 import java.util.ArrayList;
 
-public class StrategyB extends Strategy{
+public class StrategyC extends Strategy{
 	private CryptoCoin BTC = new CryptoCoin("btc");
-	private CryptoCoin ETH = new CryptoCoin("eth");
+	private CryptoCoin XLM = new CryptoCoin("xlm");
 	private double BTCPrice = BTC.getPrice();
-	private double ETHPrice = ETH.getPrice();
+	private double XLMPrice = XLM.getPrice();
 
 	@Override
 	public void compute(Broker currentBroker) {
@@ -14,13 +14,13 @@ public class StrategyB extends Strategy{
 		boolean success = checkcryptoListandStrategy(coinList);
 		
 		if (success==true) {
-			TradingAction result = new TradingAction(currentBroker.gettraderName(),"strategy-b", "eth", "buy", 10, ETH.getPrice(), ETH.getDate());
+			TradingAction result = new TradingAction(currentBroker.gettraderName(),"strategy-c", "btc", "buy", 10, BTC.getPrice(), BTC.getDate());
 			currentBroker.addActionRecord(result);
 			currentBroker.addTrades();
 			return;
 		}
 		else {
-			TradingAction result = new TradingAction(currentBroker.gettraderName(), "strategy-b", BTC.getDate());
+			TradingAction result = new TradingAction(currentBroker.gettraderName(), "strategy-c", BTC.getDate());
 			currentBroker.addActionRecord(result);
 			return;
 		}
@@ -34,13 +34,14 @@ public class StrategyB extends Strategy{
 			if (coin.getCryptoName().equals("btc")) {
 				numMatches++;
 			}
-			if (coin.getCryptoName().equals("eth")) {
+			if (coin.getCryptoName().equals("xlm")) {
 				numMatches++;
 			}
 		}
 		if (numMatches>=2) {
 			System.out.println("the list does indeed contain this");
-			if ((BTCPrice)<(ETHPrice)){
+			if ((BTCPrice)<(XLMPrice)){
+				System.out.println("successful trade");
 				return true;
 			}
 		}

@@ -58,9 +58,9 @@ public class MainUI extends JFrame implements ActionListener {
 	private DefaultTableModel dtm;
 	private JTable table;
 	private TradingClient example = new TradingClient();
-
+	private StartSessionFacade sessionFacade = new StartSessionFacade();
 	private LoginServer loginServer;
-
+	
 	public static MainUI getInstance() {
 		if (instance == null)
 			instance = new MainUI();
@@ -219,141 +219,105 @@ public class MainUI extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
+		
 		String traderName = null;
 		String[] coinNames = null;
 		String strategyName = null;
-		Context context;
+		
 		if ("refresh".equals(command)) {
 			// Add last
 			Object traderObject = dtm.getValueAt(dtm.getRowCount()-1, 0);
-			if (traderObject == null) {
-				JOptionPane.showMessageDialog(this, "please fill in Trader name on line "  );
-							
-				return;
-			}
-			traderName = traderObject.toString();
 			Object coinObject = dtm.getValueAt(dtm.getRowCount()-1, 1);
-			if (coinObject == null) {
-				JOptionPane.showMessageDialog(this, "please fill in cryptocoin list on line "  );
-				return;
-			}
-			coinNames = coinObject.toString().split(",");
 			Object strategyObject = dtm.getValueAt(dtm.getRowCount()-1, 2);
-			if (strategyObject == null) {
-				JOptionPane.showMessageDialog(this, "please fill in strategy name on line "  );
-				return;
-			}
+			displayMessage(traderObject, coinObject, strategyObject, example);
+			traderName = traderObject.toString();
+			coinNames = coinObject.toString().split(",");
 			strategyName = strategyObject.toString();
-			context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
-			context.execute();
+			sessionFacade.add(example, traderName, coinNames, strategyName);
+			
+			
+			
 			for (int count = 0; count < dtm.getRowCount(); count++){
 					traderObject = dtm.getValueAt(count, 0);
-					if (traderObject == null) {
-						JOptionPane.showMessageDialog(this, "please fill in Trader name on line " + (count + 1) );
-						
-						return;
-					}
-					traderName = traderObject.toString();
 					coinObject = dtm.getValueAt(count, 1);
-					if (coinObject == null) {
-						JOptionPane.showMessageDialog(this, "please fill in cryptocoin list on line " + (count + 1) );
-						return;
-					}
-					coinNames = coinObject.toString().split(",");
 					strategyObject = dtm.getValueAt(count, 2);
-					if (strategyObject == null) {
-						JOptionPane.showMessageDialog(this, "please fill in strategy name on line " + (count + 1) );
-						return;
-					}
-					strategyName = strategyObject.toString();
-					System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
-					
-//				   if(example.getSize()==0) {
-//					   context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
-//					   context.execute();
-//				   }
-//					ListIterator <Broker> iter = example.getClientList().listIterator();
-//					while (iter.hasNext()) {
-//						System.out.println(iter.next().gettraderName());
-//					}
-//					context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
-//				    context.execute();
-					// context = new Context(new PerformTrade(example));
-					// context.execute();
-
-					
+					displayMessage(traderObject, coinObject, strategyObject, count);
 					
 	        }
-			context = new Context(new PerformTrade(example));
-			context.execute();
+			sessionFacade.perform(example);
+			
 			stats.removeAll();
 			DataVisualizationCreator creator = new DataVisualizationCreator();
 			creator.createCharts(example);
 		} else if ("addTableRow".equals(command)) {
-			
+			dtm.addRow(new String[3]);
 			// Add previous
-			Object traderObject = dtm.getValueAt(dtm.getRowCount()-1, 0);
-			if (traderObject == null) {
-				JOptionPane.showMessageDialog(this, "please fill in Trader name on line "  );
-				
-				return;
-			}
+			Object traderObject = dtm.getValueAt(dtm.getRowCount()-2, 0);
+			Object coinObject = dtm.getValueAt(dtm.getRowCount()-2, 1);
+			Object strategyObject = dtm.getValueAt(dtm.getRowCount()-2, 2);
+			displayMessage(traderObject, coinObject, strategyObject, example);
 			traderName = traderObject.toString();
-			Object coinObject = dtm.getValueAt(dtm.getRowCount()-1, 1);
+			coinNames = coinObject.toString().split(",");
+			strategyName = strategyObject.toString();
+			sessionFacade.add(example, traderName, coinNames, strategyName);
+			
+			
+		} else if ("remTableRow".equals(command)) {
+			int selectedRow = table.getSelectedRow();
+			
+			
+			if ((selectedRow != -1)&&(table.getRowCount()>1))
+				dtm.removeRow(selectedRow);
+				sessionFacade.delete(example, selectedRow);
+			
+		}
+
+		
+		
+	}
+
+	private void displayMessage(Object traderObject, Object coinObject, Object strategyObject, int count) {
+		if (traderObject == null) {
+			JOptionPane.showMessageDialog(this, "please fill in Trader name on line " + (count + 1) );
+			
+			return;
+		}
+		String traderName = traderObject.toString();
+		
+		if (coinObject == null) {
+			JOptionPane.showMessageDialog(this, "please fill in cryptocoin list on line " + (count + 1) );
+			return;
+		}
+		String[] coinNames = coinObject.toString().split(",");
+		if (strategyObject == null) {
+			JOptionPane.showMessageDialog(this, "please fill in strategy name on line " + (count + 1) );
+			return;
+		}
+		String strategyName = strategyObject.toString();
+		System.out.println(traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
+		
+		
+	}
+
+	private void displayMessage(Object traderObject, Object coinObject, Object strategyObject, TradingClient example2) {
+		if (traderObject == null) {
+			JOptionPane.showMessageDialog(this, "please fill in Trader name on line "  );			
+			return;
+		}
+		String traderName = traderObject.toString();
+		if (!(example.checkList(traderName))) {
+			
 			if (coinObject == null) {
 				JOptionPane.showMessageDialog(this, "please fill in cryptocoin list on line "  );
 				return;
 			}
-			coinNames = coinObject.toString().split(",");
-			Object strategyObject = dtm.getValueAt(dtm.getRowCount()-1, 2);
+			
 			if (strategyObject == null) {
 				JOptionPane.showMessageDialog(this, "please fill in strategy name on line "  );
 				return;
 			}
 			
-			// Loop from the first to second last row.
-			for (int i=0; i<dtm.getRowCount() - 1; i++) {
-				if (dtm.getValueAt(i, 0) == null) break;
-				
-				// Check if the current row name equals the new traderName
-				if (dtm.getValueAt(i, 0).toString().equals(traderName)) {
-					// Display a message and exit the function if traderName exists.
-					JOptionPane.showMessageDialog(
-						null, 
-						"A trading client with this name already exists. Please select a unique name."  
-					);
-					return;
-				}
-			}
-
-			dtm.addRow(new String[3]);
-
-			strategyName = strategyObject.toString();
-//			traderName = (String) dtm.getValueAt(dtm.getRowCount()-1, 0);
-//			Object coinObject = dtm.getValueAt(dtm.getRowCount()-1, 1);
-//			coinNames = coinObject.toString().split(",");
-//			strategyName = (String) dtm.getValueAt(dtm.getRowCount()-1, 2);
-			context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
-		    context.execute();
-			
-		} else if ("remTableRow".equals(command)) {
-			int selectedRow = table.getSelectedRow();
-			context = new Context(new DeleteBroker(example, selectedRow));
-		    
-			
-			if (selectedRow != -1)
-				dtm.removeRow(selectedRow);
 		}
-		
-	
-		// System.out.println(example.getSize());
-		// ListIterator <Broker> iter = example.getClientList().listIterator();
-		// while (iter.hasNext()) {
-		// 	System.out.println(iter.next().gettraderName());
-		// }
-//		context = new Context(new PerformTrade(example));
-//		context.execute();
-		
 		
 	}
 

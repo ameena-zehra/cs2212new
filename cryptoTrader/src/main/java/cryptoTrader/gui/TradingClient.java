@@ -14,26 +14,19 @@ public class TradingClient {
 	}
 	public boolean checkList(String brokerName) {
 		for (Broker b : clientList) {
-			if (b.gettraderName().equals(b)) {
+			if (b.gettraderName().equals(brokerName)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public void getAllTradingActions () {
-		for (Broker B : clientList) {
-			for (TradingAction C : B.getactionRecord()) {
-				System.out.println(C.outputTrade());
-			}
-		}
-	}
-
+	
 	public int getTotalAllTradingActions () {
 		int totalTrades = 0;
 		for (Broker B : clientList) {
 			totalTrades += B.getactionRecord().size();
-			System.out.println("Size of action record for each broker "+B.getactionRecord().size());
+			System.out.println(B.gettraderName()+" Size of action record for each broker "+B.getactionRecord().size());
 		}
 		return totalTrades;
 	}
