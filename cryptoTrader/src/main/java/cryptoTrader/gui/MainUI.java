@@ -25,11 +25,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import cryptoTrader.utils.DataVisualizationCreator;
+import cryptoTrader.utils.LoginServer;
 
 public class MainUI extends JFrame implements ActionListener {
 	/**
@@ -39,6 +41,7 @@ public class MainUI extends JFrame implements ActionListener {
 
 	private static MainUI instance;
 	private JPanel stats, chartPanel, tablePanel;
+	private boolean showApp;
 
 	// Should be a reference to a separate object in actual implementation
 	private List<String> selectedList;
@@ -55,6 +58,8 @@ public class MainUI extends JFrame implements ActionListener {
 	private DefaultTableModel dtm;
 	private JTable table;
 	private TradingClient example = new TradingClient();
+
+	private LoginServer loginServer;
 
 	public static MainUI getInstance() {
 		if (instance == null)
@@ -168,6 +173,35 @@ public class MainUI extends JFrame implements ActionListener {
 		getContentPane().add(west, BorderLayout.CENTER);
 		getContentPane().add(south, BorderLayout.SOUTH);
 //		getContentPane().add(west, BorderLayout.WEST);
+
+		this.loginServer = new LoginServer();
+		this.showLoginUi();
+	}
+
+	private void showLoginUi() {
+		this.showApp = false;
+
+		JTextField username = new JTextField();
+		JTextField password = new JTextField();
+		Object[] inputs = {
+			"Username:", username,
+			"Password:", password
+		};
+
+		int loginPane = JOptionPane.showConfirmDialog(
+			this, 
+			inputs, 
+			"Login", 
+			JOptionPane.PLAIN_MESSAGE
+		);
+
+		if (loginPane == JOptionPane.OK_OPTION) {
+			showApp = loginServer.verifyCredentials(
+				username.getText(), 
+				password.getText()
+			);
+			if (!showApp) System.exit(0); // Kill app if invalid login
+		}
 	}
 
 	public void updateStats(JComponent component) {
