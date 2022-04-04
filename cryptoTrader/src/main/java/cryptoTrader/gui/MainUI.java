@@ -312,7 +312,7 @@ public class MainUI extends JFrame implements ActionListener {
 			for (int i=0; i<dtm.getRowCount() - 1; i++) {
 				if (dtm.getValueAt(i, 0) == null) break;
 				if (dtm.getValueAt(i, 0).toString().equals(traderName)) {
-					// Display a message and exit the function.
+					// Display a message and exit the function if tradername exists.
 					JOptionPane.showMessageDialog(
 						null, 
 						"A trading client with this name already exists. Please select a unique name."  
