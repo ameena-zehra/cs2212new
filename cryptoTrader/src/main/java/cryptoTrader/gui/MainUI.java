@@ -278,15 +278,17 @@ public class MainUI extends JFrame implements ActionListener {
 //					}
 //					context = new Context(new AddBroker(example, traderName, coinNames, strategyName));
 //				    context.execute();
-					context = new Context(new PerformTrade(example));
-					context.execute();
+					// context = new Context(new PerformTrade(example));
+					// context.execute();
 
 					
 					
 	        }
+			context = new Context(new PerformTrade(example));
+			context.execute();
 			stats.removeAll();
 			DataVisualizationCreator creator = new DataVisualizationCreator();
-			creator.createCharts();
+			creator.createCharts(example);
 		} else if ("addTableRow".equals(command)) {
 			
 			// Add previous
