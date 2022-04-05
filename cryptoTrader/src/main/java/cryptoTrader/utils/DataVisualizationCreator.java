@@ -33,7 +33,13 @@ import cryptoTrader.gui.MainUI;
 import cryptoTrader.gui.TradingAction;
 import cryptoTrader.gui.TradingClient;
 
-public class DataVisualizationCreator {
+public class DataVisualizationCreator implements Observer {
+
+	// Connecting to the observer for updating
+	@Override
+	public void update(Object o) {
+
+	}
 	
 	public void createCharts(TradingClient example) {
 		// createTextualOutput();
