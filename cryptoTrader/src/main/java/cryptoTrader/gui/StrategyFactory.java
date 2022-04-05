@@ -1,7 +1,11 @@
 package cryptoTrader.gui;
 
 public class StrategyFactory {
-	
+	/**
+	* Constructor Method
+	* @param String representing the strategy type
+	* Uses the factory design pattern to create a specific strategy based on input provided from the user
+	*/
 	public Strategy getStrategy(String strategyType) {
 	
 		if(strategyType == null){  

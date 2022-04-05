@@ -227,42 +227,11 @@ public class MainUI extends JFrame implements ActionListener {
 		String[] coinNames = null;
 		String strategyName = null;
 		
-		if ("refresh".equals(command)) {
-			
-			// Add last
-//			Object traderObject = dtm.getValueAt(dtm.getRowCount()-1, 0);
-//			Object coinObject = dtm.getValueAt(dtm.getRowCount()-1, 1);
-//			Object strategyObject = dtm.getValueAt(dtm.getRowCount()-1, 2);
-//			int success = displayMessage(traderObject, coinObject, strategyObject, currentClient, -1);
-//			if (success!=-1) {
-//				traderName = traderObject.toString();
-//				coinNames = coinObject.toString().split(",");
-//				strategyName = strategyObject.toString();
-//				sessionFacade.add(currentClient, traderName, coinNames, strategyName);
-//			}
-//			
-			
-			
-//			for (int i =0 ; i<currentRow; i++) {
-//				// Update all existing brokers
-//				
-//				traderObject = dtm.getValueAt(i, 0);
-//				coinObject = dtm.getValueAt(i, 1);
-//				strategyObject = dtm.getValueAt(i, 2);
-//				traderName = traderObject.toString();
-//				coinNames = coinObject.toString().split(",");
-//				strategyName = strategyObject.toString();
-//				System.out.println("how many times does this pass through??");
-//				sessionFacade.update(currentClient, traderName, coinNames, strategyName, i);
-//				System.out.println("AFTER: "+traderName + " " + Arrays.toString(coinNames) + " " + strategyName);
-//			}
-//			
+		if ("refresh".equals(command)) {		
 			for (int count = currentRow; count <dtm.getRowCount(); count++){
 					traderObject = dtm.getValueAt(count, 0);
 					coinObject = dtm.getValueAt(count, 1);
 					strategyObject = dtm.getValueAt(count, 2);
-					
-					//System.out.println("TRADER NAME" +traderName);
 					int success = displayMessage(traderObject, coinObject, strategyObject, count, currentClient, 0);
 					if(success==-1) {
 						return;
@@ -274,7 +243,6 @@ public class MainUI extends JFrame implements ActionListener {
 						sessionFacade.add(currentClient, traderName, coinNames, strategyName);
 						currentRow++;
 					}
-//					System.out.println("OKkas failed");
 					
 	        }
 			sessionFacade.perform(currentClient);

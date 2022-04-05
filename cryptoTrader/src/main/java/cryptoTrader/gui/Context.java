@@ -1,22 +1,24 @@
 package cryptoTrader.gui;
-import java.util.ArrayList; // import the ArrayList class
+
 public class Context {
-//	private String traderName;
-//	private String[] coinNames; 
-//	private String strategyName;
-//	private TradingClient fullUser; 
-
-	private Operations operation;
-
-	   public Context(Operations userSelectedoperation) {
-	      this.operation = userSelectedoperation;
-	   }
-
-
-
-	   public void execute() {
-	      operation.doAlgorithm(this);
-	   }
+	
+	private Operations operation;	// Operations instance variable defined in the constructor
+	
+	/**
+	* Constructor
+	* @param Operation to be completed
+	*/
+	public Context(Operations userSelectedoperation) {
+	    this.operation = userSelectedoperation;
+	}
+	
+	/**
+	* Execute 
+	* Method which forces the execution of the operation specified in the constructor
+	*/
+	public void execute() {
+	   operation.doAlgorithm(this);
+	}
 
 
 }

@@ -20,11 +20,6 @@ public class StartSessionFacade {
 		context = new Context(new DeleteBroker(currentClient, selectedRow));
 		context.execute();
 	}
-	public void update(TradingClient currentClient, String traderName, String[] coinNames, String strategyName,
-			int count) {
-		context = new Context(new UpdateBroker(currentClient, traderName, coinNames, strategyName, count));
-		context.execute();
-		
-	}
+	
 
 }

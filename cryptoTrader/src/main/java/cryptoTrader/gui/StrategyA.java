@@ -22,7 +22,7 @@ public class StrategyA extends Strategy{
 		boolean success = checkcryptoListandStrategy(coinList);
 		
 		if (success==true) {
-			TradingAction result = new TradingAction(currentBroker.gettraderName(),"Strategy-A", "btc", "buy", 100, BTCPrice, getDate());
+			TradingAction result = new TradingAction(currentBroker.gettraderName(),"Strategy-A", "btc", "Buy", 100, BTCPrice, getDate());
 			currentBroker.addActionRecord(result);
 			currentBroker.addTrades(100);
 			return;

@@ -14,7 +14,7 @@ public class PerformTrade extends Operations{
 		ArrayList<Broker>  clientList = currentUser.getClientList();
 		StrategyFactory factory = new StrategyFactory();
 		for (Broker broker : clientList) {
-			Strategy currentStrategy = factory.getStrategy(broker.strategyName());
+			Strategy currentStrategy = factory.getStrategy(broker.getStrategy());
 			fetchPrices(broker.getCoinList());
 			currentStrategy.compute(broker);
 			
