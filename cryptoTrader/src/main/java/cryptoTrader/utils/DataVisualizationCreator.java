@@ -66,7 +66,6 @@ public class DataVisualizationCreator implements Observer {
 	}
 
 	private void createTableOutput(TradingClient example) {
-		example.getAllTradingActions();
 
 		Object[][] data = new Object[example.getTotalAllTradingActions()][7];
 		int i=0;

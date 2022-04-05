@@ -46,7 +46,6 @@ public class StrategyA extends Strategy{
 		int numMatches=0;
 		
 		for (CryptoCoin coin : coinList) {
-			System.out.println(coin.getCryptoName());
 			if (coin.getCryptoName().equals("btc")) {
 				BTCPrice = coin.getPrice();
 				numMatches++;
