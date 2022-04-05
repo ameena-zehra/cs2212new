@@ -19,7 +19,7 @@ public class StrategyC extends Strategy{
 		boolean success = checkcryptoListandStrategy(coinList);
 		
 		if (success==true) {
-			TradingAction result = new TradingAction(currentBroker.gettraderName(),"strategy-c", "xlm", "sell", 200, XLMPrice, getDate());
+			TradingAction result = new TradingAction(currentBroker.gettraderName(),"Strategy-C", "xlm", "Sell", 200, XLMPrice, getDate());
 			currentBroker.addActionRecord(result);
 			currentBroker.addTrades(200);
 			return;

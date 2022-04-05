@@ -6,28 +6,37 @@ import java.util.ArrayList;
 
 public class StrategyD extends Strategy{
 	
-	private double BTCPrice = 0;
-	private double XLMPrice = 0;
+	private double BTCPrice = 0; // Price of Bitcoin initialized to 0 and later updated if trade successful
+	private double XLMPrice = 0; // Price of Stellar Coin initialized to 0 and later updated if trade successful
 
-	@Override
+	/**
+	* Public Computes Strategy method
+	* @param currentBroker whose strategy is being evaluated
+	* If trade is successful then a successful trade is added to the action record
+	*/
 	public void compute(Broker currentBroker) {
 		ArrayList<CryptoCoin> coinList = currentBroker.getCoinList();
 		boolean success = checkcryptoListandStrategy(coinList);
 		
 		if (success==true) {
-			TradingAction result = new TradingAction(currentBroker.gettraderName(),"strategy-d", "xlm", "buy", 300, XLMPrice, getDate());
+			TradingAction result = new TradingAction(currentBroker.gettraderName(),"Strategy-D", "xlm", "Sell", 600, XLMPrice, getDate());
 			currentBroker.addActionRecord(result);
-			currentBroker.addTrades(300);
+			currentBroker.addTrades(600);
 			return;
 		}
 		else {
-			TradingAction result = new TradingAction(currentBroker.gettraderName(), "strategy-d", getDate());
+			TradingAction result = new TradingAction(currentBroker.gettraderName(), "Strategy-D", getDate());
 			currentBroker.addActionRecord(result);
 			return;
 		}
 		// TODO Auto-generated method stub
-		
 	}
+	/**
+	* Private helper method
+	* @param coinList
+	* Checks if the coin list contains btc and xlm and if so evaluates the core strategy
+	* @return If both are successful a boolean true is returned, else it is false
+	*/
 	private boolean checkcryptoListandStrategy(ArrayList<CryptoCoin> coinList){
 		int numMatches=0;
 		
@@ -43,23 +52,31 @@ public class StrategyD extends Strategy{
 			}
 		}
 		if (numMatches>=2) {
-			if ((BTCPrice)>(XLMPrice)||(XLMPrice>5)){
+			if ((BTCPrice)!=(XLMPrice)){
 				return true;
 			}
 		}
 		return false;
-		
 	}
+	
+	/**
+	* Private helper method
+	* @return returns the date of the trade formatted for the chart used for the trading record
+	*/
 	private String getDate() {
 		LocalDateTime now = LocalDateTime.now(); 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 		String date = dtf.format(now.minusDays(2));
-
 		String month = getMonth(date.substring(0, 2));
 		date = date.substring(2,10);
 		String newdate = month.concat(date);
 		return newdate;
 	}
+	
+	/**
+	* Private helper method
+	* @return returns the month as a string used in the above method for formatting
+	*/
 	private String getMonth(String date) {
 		if (date.equals("01")) {
 			return "January";
