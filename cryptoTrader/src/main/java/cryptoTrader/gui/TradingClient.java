@@ -13,8 +13,8 @@ public class TradingClient {
 		return clientList.size();
 	}
 	public boolean checkList(String brokerName) {
-		for (Broker b : clientList) {
-			if (b.gettraderName().equals(brokerName)) {
+		for (Broker currentBroker : clientList) {
+			if (currentBroker.gettraderName().equals(brokerName)) {
 				return true;
 			}
 		}
@@ -24,9 +24,9 @@ public class TradingClient {
 	
 	public int getTotalAllTradingActions () {
 		int totalTrades = 0;
-		for (Broker B : clientList) {
-			totalTrades += B.getactionRecord().size();
-			System.out.println(B.gettraderName()+" Size of action record for each broker "+B.getactionRecord().size());
+		for (Broker currentBroker : clientList) {
+			totalTrades += currentBroker.getactionRecord().size();
+			System.out.println(currentBroker.gettraderName()+" Size of action record for each broker "+currentBroker.getactionRecord().size());
 		}
 		return totalTrades;
 	}

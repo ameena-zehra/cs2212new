@@ -1,11 +1,5 @@
 package cryptoTrader.gui;
 
-import java.util.Arrays;
-
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-
-import cryptoTrader.utils.DataVisualizationCreator;
 
 public class StartSessionFacade {
 	private String lastAddedClient=null;
@@ -25,6 +19,12 @@ public class StartSessionFacade {
 	public void delete(TradingClient currentClient, int selectedRow) {
 		context = new Context(new DeleteBroker(currentClient, selectedRow));
 		context.execute();
+	}
+	public void update(TradingClient currentClient, String traderName, String[] coinNames, String strategyName,
+			int count) {
+		context = new Context(new UpdateBroker(currentClient, traderName, coinNames, strategyName, count));
+		context.execute();
+		
 	}
 
 }

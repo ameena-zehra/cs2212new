@@ -15,11 +15,17 @@ public class PerformTrade extends Operations{
 		StrategyFactory factory = new StrategyFactory();
 		for (Broker broker : clientList) {
 			Strategy currentStrategy = factory.getStrategy(broker.strategyName());
+			fetchPrices(broker.getCoinList());
 			currentStrategy.compute(broker);
 			
 		}
 		
 		return;
+	}
+	private void fetchPrices(ArrayList<CryptoCoin> coinList ) {
+		for (CryptoCoin coin: coinList) {
+			coin.getPrice();
+		}
 	}
 
 }

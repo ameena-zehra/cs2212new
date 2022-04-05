@@ -12,6 +12,7 @@ public class CryptoCoin {
 	public CryptoCoin(String cryptoName) {
 		this.cryptoName = cryptoName;
 		setDate();
+		setPrice();
 	}
 	public String getCryptoName() {
 		return cryptoName;
@@ -28,7 +29,7 @@ public class CryptoCoin {
 		this.cryptoPrice= coingeckoAPI.getPriceForCoin(cryptoName, date);
 	}
 	public double getPrice() {
-		setPrice();
+		System.out.println("Price returned after API call  : "+cryptoPrice);
 		return cryptoPrice;
 	}
 	
