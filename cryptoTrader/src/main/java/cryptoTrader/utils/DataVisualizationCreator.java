@@ -1,16 +1,13 @@
 package cryptoTrader.utils;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.util.Arrays;
-
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -18,21 +15,25 @@ import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.LogAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.renderer.xy.XYSplineRenderer;
 import org.jfree.data.Range;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.time.Day;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
-
 import cryptoTrader.gui.Broker;
 import cryptoTrader.gui.MainUI;
+import org.jfree.data.time.TimeSeries;
 import cryptoTrader.gui.TradingAction;
 import cryptoTrader.gui.TradingClient;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYSplineRenderer;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
+/**
+ * Public method to visualize the data recieved
+ * Through a table and bar graph showcasing the
+ * Broker and trading information
+ */
 public class DataVisualizationCreator implements Observer {
 
 	// Connecting to the observer for updating
@@ -40,35 +41,34 @@ public class DataVisualizationCreator implements Observer {
 	public void update(Object o) {
 
 	}
-	
+
+	/**
+	 * Public method to call methods and
+	 * Create the actual charts (table & bar)
+	 * @param example trading client data/info
+	 */
 	public void createCharts(TradingClient example) {
-		// createTextualOutput();
 		createTableOutput(example);
-		// createTimeSeries();
-		// createScatter();
 		createBar(example);
 	}
 
 	private void createTextualOutput() {
-//		DefaultTableModel dtm = new  DefaultTableModel(new Object[] {"Broker Name", "Ticker List", "Strategy Name"}, 1);
-//		JTable table = new JTable(dtm);
-//		//table.setPreferredSize(new Dimension(600, 300));
-//		dtm.e
-//		JScrollPane scrollPane = new JScrollPane(table);
-//		scrollPane.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
-//                "Broker Actions",
-//                TitledBorder.CENTER,
-//                TitledBorder.TOP));
-//		
-//		scrollPane.setPreferredSize(new Dimension(800, 300));
-//		table.setFillsViewportHeight(true);;
-//		MainUI.getInstance().updateStats(scrollPane);
+
 	}
 
+	/**
+	 * Private method used to output the table
+	 * On the user interface, taking in trading
+	 * Client data as the parameter
+	 * @param example
+	 */
 	private void createTableOutput(TradingClient example) {
 
+		// Declaring data object
 		Object[][] data = new Object[example.getTotalAllTradingActions()][7];
 		int i=0;
+
+		// For looping through brokers
 		for (Broker current : example.getClientList()){
 			for (TradingAction currentTrade : current.getactionRecord()){
 				Object[] array = new Object[7];
@@ -78,33 +78,9 @@ public class DataVisualizationCreator implements Observer {
 			}
 		}
 
-		// for (int k = 0; k < example.getTotalAllTradingActions(); k++) {
-		// 	for (int j = 0; j < 7; j++) {
-		// 		System.out.println("Thing " + (k + 1) + ": " + data[k][j]);
-		// 	}
-		// }
-
-		// 		array[i] = outputTradeArray[j];
-		// 	}
-		// 	data[i] = array;
-		// }
-
-		// for (int i = 0; i < example.getTotalAllTradingActions(); i++) {
-		// 	for (int j = 0; j < 7; j++) {
-		// 		Arrays.fill(data, );
-		// 	}
-		// }
-
-		// Object[][] data = {
-		// 		{"Trader-1", "Strategy-A", "ETH", "Buy", "500", "150.3","13-January-2022"},
-		// 		{"Trader-2", "Strategy-B", "BTC", "Sell", "200", "50.2","13-January-2022"},
-		// 		{"Trader-3", "Strategy-C", "HNT", "Buy", "1000", "2.59","20-January-2022"}
-		// };
-
 		Object[] columnNames = {"Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"};
 
 		JTable table = new JTable(data, columnNames);
-		//table.setPreferredSize(new Dimension(600, 300));
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
 			"Trader Actions", TitledBorder.CENTER, TitledBorder.TOP));
@@ -142,9 +118,6 @@ public class DataVisualizationCreator implements Observer {
 		DateAxis domainAxis = new DateAxis("");
 		plot.setDomainAxis(domainAxis);
 		plot.setRangeAxis(new LogAxis("Price(USD)"));
-		//plot.mapDatasetToRangeAxis(0, 0);// 1st dataset to 1st y-axis
-		//plot.mapDatasetToRangeAxis(1, 1); // 2nd dataset to 2nd y-axis
-		//plot.mapDatasetToRangeAxis(2, 2);// 3rd dataset to 3rd y-axis
 		JFreeChart chart = new JFreeChart("Daily Price Line Chart",
 			new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
 		ChartPanel chartPanel = new ChartPanel(chart);
@@ -183,8 +156,6 @@ public class DataVisualizationCreator implements Observer {
 		DateAxis domainAxis = new DateAxis("");
 		plot.setDomainAxis(domainAxis);
 		plot.setRangeAxis(new LogAxis("Price(USD)"));
-		//plot.mapDatasetToRangeAxis(0, 0);// 1st dataset to 1st y-axis
-		//plot.mapDatasetToRangeAxis(1, 1); // 2nd dataset to 2nd y-axis
 		JFreeChart scatterChart = new JFreeChart("Daily Price Scatter Chart",
 			new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
 		ChartPanel chartPanel = new ChartPanel(scatterChart);
@@ -194,12 +165,14 @@ public class DataVisualizationCreator implements Observer {
 		MainUI.getInstance().updateStats(chartPanel);
 	}
 
+	/**
+	 * Private method used to display data onto the bar graphs
+	 * @param example takes in all the necessary trading data (including broker info)
+	 */
 	private void createBar(TradingClient example) {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-		// "Trader","Strategy","CryptoCoin","Action","Quantity","Price","Date"
-
-		// Observer
+		// Looping through list of brokers and getting their information to set
 		for (Broker b : example.getClientList()) {
 			dataset.setValue(
 				b.getnumTrades(),
@@ -217,8 +190,6 @@ public class DataVisualizationCreator implements Observer {
 		LogAxis rangeAxis = new LogAxis("Actions(Buys or Sells)");
 		rangeAxis.setRange(new Range(1.0, 20.0));
 		plot.setRangeAxis(rangeAxis);
-		//plot.mapDatasetToRangeAxis(0, 0);// 1st dataset to 1st y-axis
-		//plot.mapDatasetToRangeAxis(1, 1); // 2nd dataset to 2nd y-axis
 		JFreeChart barChart = new JFreeChart("Actions Performed By Traders So Far",
 			new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
 		ChartPanel chartPanel = new ChartPanel(barChart);

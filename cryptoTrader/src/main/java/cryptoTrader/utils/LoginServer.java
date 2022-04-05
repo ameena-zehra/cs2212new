@@ -4,6 +4,11 @@ final class User {
     public String username;
     public String password;
 
+    /**
+    * Constructor
+    * @param username for user
+    * @param password for user
+    */
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -16,14 +21,18 @@ public class LoginServer {
     private LoginServer loginServer = null;
 
     public LoginServer() {
-        this.allowedUsers = new User[] { 
+        this.allowedUsers = new User[] {  //List of allowed users
             new User("nicholaschong", "nc"), 
             new User("anselzeng", "az"), 
             new User("sophialu", "sl"), 
             new User("ameenanaqvi", "an") 
         };
     }
-
+    /**
+    * @param username entered by user
+    * @param password eneterd by user
+    * @return true or false, depending on if the username and password match an existing user
+    */
     public boolean verifyCredentials(String username, String password) {
         for (int i=0; i<this.allowedUsers.length; i++) {
             User userToCheck = this.allowedUsers[i];
@@ -36,7 +45,11 @@ public class LoginServer {
         }
         return false;
     }
-
+    
+    /**
+    * Creates a login server
+    * @return loginServer
+    */
     public LoginServer getLoginServer() {
         if (this.loginServer == null) this.loginServer = new LoginServer();
         return this.loginServer;
