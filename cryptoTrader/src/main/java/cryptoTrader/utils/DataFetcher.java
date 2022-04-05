@@ -14,10 +14,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import cryptoTrader.gui.TradingClient;
+
 public class DataFetcher {
 	
-	HashMap<String, String> coin_map = new HashMap<String, String>();
+	HashMap<String, String> coin_map = new HashMap<String, String>();	// Hashmap used when translating all symbols to IDs in the method below
 	 
+	/**
+	* Private helper method
+	* @param String representing the symbol to be translated to an id
+	* Uses the Coin Gecko API and sends request to find the corresponding symbol associated with the id
+	* @return the id represented through the symbol given as a parameter
+	*/
     private String translatefromSymboltoID(String symbol) {
  
         // Get coin list
@@ -59,10 +67,28 @@ public class DataFetcher {
 
 		
 	
-
+    /**
+	* Private helper method
+	* @param String representing the symbol to be translated to an id and the date of trade
+	* First uses the above helper method but in case it fails additional mechanisms are put into place to ensure the translation
+	* Second commits an http request to find the data associated with that symbol
+	* @return the id represented through the symbol
+	*/
 	private JsonObject getDataForCrypto(String symbol, String date) {
 		String id = translatefromSymboltoID(symbol);
-
+		if (id==null) {
+			if (symbol=="btc") {
+				id = "bitcoin";
+			}
+			if (symbol =="eth") {
+				id = "ethereum";
+				
+			}
+			if (symbol=="xlm") {
+				id = "stellar";
+				
+			}
+		}
 		String urlString = String.format(
 				"https://api.coingecko.com/api/v3/coins/%s/history?date=%s", id, date);
 		
@@ -90,6 +116,11 @@ public class DataFetcher {
 		return null;
 	}
 	
+	 /**
+	* Public getter method
+	* @param String representing the symbol to be translated to an id and the date of trade
+	* Uses the helper method to return the price associated with the coin
+	*/
 	public double getPriceForCoin(String id, String date) {
 		double price = 0.0;
 		
@@ -104,7 +135,11 @@ public class DataFetcher {
 		
 		return price;
 	}
-	
+	/**
+	* Public getter method
+	* @param String representing the symbol to be translated to an id and the date of trade
+	* Uses the helper method to return the market cap associated with the coin
+	*/
 	public double getMarketCapForCoin(String id, String date) {
 		double marketCap = 0.0;
 		
@@ -117,7 +152,11 @@ public class DataFetcher {
 		
 		return marketCap;
 	}
-	
+	/**
+	* Public getter method
+	* @param String representing the symbol to be translated to an id and the date of trade
+	* Uses the helper method to return the total volume associated with the coin
+	*/
 	public double getVolumeForCoin(String id, String date) {
 		double volume = 0.0;
 		
@@ -130,18 +169,4 @@ public class DataFetcher {
 		
 		return volume;
 	}
-	
-//	public static void main(String[] args) {
-//		DataFetcher fetcher = new DataFetcher();
-//		double price = fetcher.getPriceForCoin("btc", "31-03-2022");
-//		double marketCap = fetcher.getMarketCapForCoin("btc", "08-09-2021");
-//		double volume = fetcher.getVolumeForCoin("btc", "08-09-2021");
-//		
-//		System.out.println(fetcher.translatefromSymboltoID("etc"));
-//		
-//		System.out.println("Bitcoin=>\tPrice: " + price + 
-//								"\n\t\tMarket Cap: " + marketCap + 
-//								"\n\t\tVolume: "+volume);
-//		
-//	}
 }
