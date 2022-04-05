@@ -10,8 +10,10 @@ final class User {
     }
 }
 
+// Singleton design pattern
 public class LoginServer {
     private User[] allowedUsers;
+    private LoginServer loginServer = null;
 
     public LoginServer() {
         this.allowedUsers = new User[] { 
@@ -33,5 +35,10 @@ public class LoginServer {
             }
         }
         return false;
+    }
+
+    public LoginServer getLoginServer() {
+        if (this.loginServer == null) this.loginServer = new LoginServer();
+        return this.loginServer;
     }
 }

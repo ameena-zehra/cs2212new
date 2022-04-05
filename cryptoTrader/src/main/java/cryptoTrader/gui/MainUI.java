@@ -180,6 +180,7 @@ public class MainUI extends JFrame implements ActionListener {
 
 	private void showLoginUi() {
 		this.showApp = false;
+		LoginServer loginServer = this.loginServer.getLoginServer();
 
 		JTextField username = new JTextField();
 		JTextField password = new JTextField();
