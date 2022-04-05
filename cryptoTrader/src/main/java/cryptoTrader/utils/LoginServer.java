@@ -4,6 +4,11 @@ final class User {
     public String username;
     public String password;
 
+    /**
+    * Constructor
+    * @param username for user
+    * @param password for user
+    */
     public User(String username, String password) {
         this.username = username;
         this.password = password;
